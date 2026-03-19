@@ -1,0 +1,97 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "Plus Jakarta Sans";
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url("/assets/fonts/PlusJakartaSans.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Figtree";
+  font-style: normal;
+  font-weight: 300 900;
+  font-display: swap;
+  src: url("/assets/fonts/Figtree.woff2") format("woff2");
+}
+
+@layer base {
+  :root {
+    --radius: 1rem;
+
+    /* Brand colors in OKLCH */
+    /* #1a6fc4 blue → oklch(0.50 0.16 250) */
+    /* #3db843 green → oklch(0.67 0.19 145) */
+    /* #1a2a4a navy → oklch(0.24 0.065 250) */
+    /* #f8fafb bg → oklch(0.985 0.004 240) */
+
+    --background: 0.985 0.004 240;
+    --foreground: 0.24 0.065 250;
+    --card: 1 0 0;
+    --card-foreground: 0.24 0.065 250;
+    --popover: 1 0 0;
+    --popover-foreground: 0.24 0.065 250;
+    --primary: 0.67 0.19 145;
+    --primary-foreground: 1 0 0;
+    --secondary: 0.5 0.16 250;
+    --secondary-foreground: 1 0 0;
+    --muted: 0.94 0.01 240;
+    --muted-foreground: 0.5 0.03 250;
+    --accent: 0.94 0.01 240;
+    --accent-foreground: 0.24 0.065 250;
+    --destructive: 0.577 0.245 27.325;
+    --destructive-foreground: 1 0 0;
+    --border: 0.9 0.01 240;
+    --input: 0.9 0.01 240;
+    --ring: 0.67 0.19 145;
+    --chart-1: 0.67 0.19 145;
+    --chart-2: 0.5 0.16 250;
+    --chart-3: 0.24 0.065 250;
+    --chart-4: 0.828 0.189 84.429;
+    --chart-5: 0.769 0.188 70.08;
+    --sidebar: 0.985 0.004 240;
+    --sidebar-foreground: 0.24 0.065 250;
+    --sidebar-primary: 0.67 0.19 145;
+    --sidebar-primary-foreground: 1 0 0;
+    --sidebar-accent: 0.94 0.01 240;
+    --sidebar-accent-foreground: 0.24 0.065 250;
+    --sidebar-border: 0.9 0.01 240;
+    --sidebar-ring: 0.67 0.19 145;
+  }
+
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-body;
+  }
+}
+
+/* Brand gradient utility */
+.btn-gradient {
+  background: linear-gradient(135deg, #3db843 0%, #1a6fc4 100%);
+  color: white;
+  border: none;
+}
+
+.btn-gradient:hover {
+  background: linear-gradient(135deg, #35a83a 0%, #155fa8 100%);
+}
+
+.chat-bubble-user {
+  background: linear-gradient(135deg, #3db843 0%, #1a6fc4 100%);
+  color: white;
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Chat scroll */
+.chat-scroll {
+  scroll-behavior: smooth;
+}
