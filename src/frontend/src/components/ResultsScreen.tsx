@@ -17,6 +17,7 @@ import {
   PlusCircle,
   RefreshCw,
   Send,
+  ShoppingCart,
   Square,
   ThumbsDown,
   ThumbsUp,
@@ -41,6 +42,7 @@ import {
 } from "../utils/nutrition";
 import { FoodScanner } from "./FoodScanner";
 import { IngredientScanner } from "./IngredientScanner";
+import { SmartCart } from "./SmartCart";
 
 interface ResultsScreenProps {
   profile: UserProfile;
@@ -310,6 +312,7 @@ export function ResultsScreen({ profile, onRestart }: ResultsScreenProps) {
 
   // Section refs for scroll-to
   const coachRef = useRef<HTMLDivElement>(null);
+  const smartCartRef = useRef<HTMLDivElement>(null);
   const scannerRef = useRef<HTMLDivElement>(null);
 
   // Email input state for Save Plan
@@ -804,6 +807,18 @@ export function ResultsScreen({ profile, onRestart }: ResultsScreenProps) {
               />
             ))}
           </div>
+        </motion.div>
+
+        {/* Smart Cart */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.9 }}
+          ref={smartCartRef}
+          className="bg-card rounded-2xl p-5 shadow-sm"
+          data-ocid="smart_cart.card"
+        >
+          <SmartCart meals={recipePlan} />
         </motion.div>
 
         {/* Smart Suggestions */}
@@ -1397,6 +1412,19 @@ export function ResultsScreen({ profile, onRestart }: ResultsScreenProps) {
             >
               <ChefHat className="w-5 h-5" />
               <span className="text-[10px] font-medium">Recipes</span>
+            </button>
+
+            <button
+              type="button"
+              data-ocid="bottombar.cart_button"
+              onClick={() =>
+                smartCartRef.current?.scrollIntoView({ behavior: "smooth" })
+              }
+              className="flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-xl text-muted-foreground hover:text-foreground transition-colors"
+              aria-label="Smart Cart"
+            >
+              <ShoppingCart className="w-5 h-5" />
+              <span className="text-[10px] font-medium">Cart</span>
             </button>
 
             <button

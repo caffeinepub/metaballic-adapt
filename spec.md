@@ -1,44 +1,32 @@
 # Metaballic Adapt
 
 ## Current State
-New project. No existing application files.
+The app has a full results screen (ResultsScreen.tsx) with meal plan, AI coach, food scanner, ingredient scanner, meal logger, feedback/save sections, and a bottom bar with quick actions. Meal plans are recipe-based with ingredients arrays per dish.
 
 ## Requested Changes (Diff)
 
 ### Add
-- Splash screen: logo + slogan "Nutrition that adapts to you" shown on app load
-- Landing page: headline, subheadline, CTA button "Get My Plan", 3 feature bullets, scroll hint
-- Chat-style onboarding flow (one question at a time, bot left / user right):
-  1. Goal: Lose Fat / Maintain / Gain Muscle
-  2. Gender: Male / Female
-  3. Weight (kg, 30–200 validation)
-  4. Height (cm)
-  5. Age
-  6. Activity Level: Low / Moderate / High
-  7. Diet Preference: Veg / Non-veg / Vegan
-  8. Lifestyle: Busy / Flexible / Home-cooked
-  9. Foods to avoid (optional text)
-  10. Eating pattern: Big meals / Snacks / Irregular
-  11. Biggest struggle: Overeating / Time / Cravings / Confusion
-  12. Goal speed: Slow / Balanced / Fast
-- BMR calculation (Mifflin-St Jeor, uses gender)
-- TDEE adjustment (activity multiplier)
-- Calorie goal adjustment (goal + goal speed strictness)
-- Protein target: 1.6g × weight
-- Result screen: daily calories, protein target, full meal plan (breakfast/lunch/dinner/snack based on diet type), 3 personalized smart tips
-- Mini AI food chat: input box "Tell me what you ate today...", smart rule-based responses covering common foods with calorie estimates and follow-up questions
+- `SmartCart.tsx` component: extracts ingredients from the current recipePlan and displays them as shoppable items
+- Smart Cart section: card-based layout with each ingredient as a product, showing Instamart (Best Option), Amazon Fresh, and Walmart buy buttons with dynamic URLs
+- Bulk action buttons: "Buy All on Amazon" and "Best Mixed Cart"
+- Shopping List section below: simplified list view with one primary buy button per item
+- "Copy List" button
+- "Save for Later" using localStorage
+- Smart Cart auto-appears after plan generation in ResultsScreen, and accessible via a cart icon in the bottom bar
+- Help improve banner logic: existing behavior preserved
 
 ### Modify
-- N/A (new project)
+- `ResultsScreen.tsx`: import and render SmartCart component after meal plan section; add cart icon to bottom bar
 
 ### Remove
-- N/A
+- Nothing removed
 
 ## Implementation Plan
-1. Backend: store nothing persistent (no login, stateless). Expose a single query for health check if needed.
-2. Frontend screens: Splash → Landing → Chat Onboarding → Results (with meal plan + tips + mini AI chat)
-3. All logic (BMR, TDEE, meal plan generation, tip generation, food chat) runs client-side in TypeScript
-4. Food chat uses a lookup table of 80+ common foods with calorie ranges and smart follow-up questions
-5. Smooth fade/slide transitions between chat messages
-6. Mobile-first max-width 480px layout
-7. Logo displayed on splash and in app header
+1. Create `src/frontend/src/components/SmartCart.tsx` with full Smart Cart + Shopping List UI
+2. Extract ingredients from recipePlan meals, deduplicate, and map to cart items with recommended reason
+3. Instamart = Best Option (Indian default), Amazon Fresh = Reliable Choice, Walmart = Available Internationally
+4. Dynamic buy URLs: Amazon.in, Swiggy Instamart, Walmart
+5. Bulk actions open all tabs for respective platforms
+6. Save for Later persists to localStorage key `metaballic_saved_cart`
+7. Copy List copies all product names to clipboard
+8. Wire SmartCart into ResultsScreen after meal plan, and add cart icon (🛒) to bottom bar
