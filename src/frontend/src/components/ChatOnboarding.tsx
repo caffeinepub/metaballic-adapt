@@ -16,7 +16,7 @@ const STEPS: Step[] = [
   {
     id: "intro",
     botMessage:
-      "Hey 👋 I'm your Metaballic AI coach. I'll build your personalized diet plan in 30 seconds.",
+      "Hey 👋 I'm Nova, your Metaballic AI coach. I'll build your personalized diet plan in 30 seconds.",
     type: "buttons",
     options: [{ label: "Let's go! 🚀", value: "start" }],
   },
@@ -96,6 +96,15 @@ const STEPS: Step[] = [
     ],
   },
   {
+    id: "gymUser",
+    botMessage: "Do you go to the gym regularly?",
+    type: "buttons",
+    options: [
+      { label: "Yes 💪", value: "true" },
+      { label: "No 🥗", value: "false" },
+    ],
+  },
+  {
     id: "lifestyle",
     botMessage: "What's your lifestyle like?",
     type: "buttons",
@@ -156,6 +165,20 @@ interface ChatOnboardingProps {
   onComplete: (profile: UserProfile) => void;
 }
 
+function BotAvatar({ size = "sm" }: { size?: "sm" | "lg" }) {
+  const cls = size === "lg" ? "w-9 h-9 text-sm" : "w-7 h-7 text-xs";
+  return (
+    <div
+      className={`${cls} rounded-full flex items-center justify-center text-white font-bold flex-shrink-0`}
+      style={{ background: "linear-gradient(135deg, #3db843, #1a6fc4)" }}
+    >
+      N
+    </div>
+  );
+}
+
+export { BotAvatar };
+
 export function ChatOnboarding({ onComplete }: ChatOnboardingProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [stepIdx, setStepIdx] = useState(0);
@@ -182,6 +205,12 @@ export function ChatOnboarding({ onComplete }: ChatOnboardingProps) {
     setMessages((prev) => [...prev, { ...msg, id: ++msgCounter }]);
   }
 
+  function coerceValue(step: Step, value: string): any {
+    if (step.type === "number") return Number(value);
+    if (step.id === "gymUser") return value === "true";
+    return value;
+  }
+
   function handleAnswer(value: string, label?: string) {
     const step = STEPS[stepIdx];
     const displayText = label || value;
@@ -190,8 +219,7 @@ export function ChatOnboarding({ onComplete }: ChatOnboardingProps) {
 
     if (step.id !== "intro") {
       const key = step.id as keyof UserProfile;
-      const typedVal =
-        step.type === "number" ? (Number(value) as any) : (value as any);
+      const typedVal = coerceValue(step, value);
       setProfile((prev) => ({ ...prev, [key]: typedVal }));
     }
 
@@ -202,7 +230,7 @@ export function ChatOnboarding({ onComplete }: ChatOnboardingProps) {
       setTimeout(() => {
         const finalProfile = {
           ...profile,
-          [step.id]: step.type === "number" ? Number(value) : value,
+          [step.id]: coerceValue(step, value),
         } as UserProfile;
         onComplete(finalProfile);
       }, 1800);
@@ -242,15 +270,9 @@ export function ChatOnboarding({ onComplete }: ChatOnboardingProps) {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <header className="bg-card border-b border-border px-4 py-3 flex items-center gap-3 sticky top-0 z-10 shadow-xs">
-        <img
-          src="/assets/uploads/file_000000001d9872089e4984a0f8198a87-1.png"
-          alt="Logo"
-          className="w-9 h-9 object-contain"
-        />
+        <BotAvatar size="lg" />
         <div className="flex-1">
-          <p className="font-display font-bold text-sm text-foreground">
-            Metaballic Coach
-          </p>
+          <p className="font-display font-bold text-sm text-foreground">Nova</p>
           <p className="text-xs text-muted-foreground">Building your plan...</p>
         </div>
         <div className="flex items-center gap-1">
@@ -286,11 +308,9 @@ export function ChatOnboarding({ onComplete }: ChatOnboardingProps) {
               className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
             >
               {msg.role === "bot" && (
-                <img
-                  src="/assets/uploads/file_000000001d9872089e4984a0f8198a87-1.png"
-                  alt=""
-                  className="w-7 h-7 object-contain mr-2 mt-1 flex-shrink-0"
-                />
+                <div className="mr-2 mt-1">
+                  <BotAvatar size="sm" />
+                </div>
               )}
               <div
                 className={`max-w-[80%] px-4 py-2.5 rounded-2xl text-sm leading-relaxed ${
@@ -311,11 +331,9 @@ export function ChatOnboarding({ onComplete }: ChatOnboardingProps) {
               animate={{ opacity: 1, y: 0 }}
               className="flex justify-start"
             >
-              <img
-                src="/assets/uploads/file_000000001d9872089e4984a0f8198a87-1.png"
-                alt=""
-                className="w-7 h-7 object-contain mr-2 mt-1 flex-shrink-0"
-              />
+              <div className="mr-2 mt-1">
+                <BotAvatar size="sm" />
+              </div>
               <div className="bg-card shadow-xs rounded-2xl rounded-bl-sm px-4 py-3">
                 <p className="text-sm text-foreground mb-2">
                   Building your personalized plan... 🧠

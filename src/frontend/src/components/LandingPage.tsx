@@ -17,9 +17,12 @@ export function LandingPage({ onStart }: LandingPageProps) {
             className="flex flex-col items-center mb-10"
           >
             <img
-              src="/assets/uploads/file_000000001d9872089e4984a0f8198a87-1.png"
+              src="/assets/generated/logo-transparent.dim_200x200.png"
               alt="Metaballic Adapt"
               className="w-16 h-16 object-contain mb-3"
+              onError={(e) => {
+                (e.target as HTMLImageElement).style.display = "none";
+              }}
             />
             <span className="text-sm font-semibold text-muted-foreground tracking-wide uppercase font-display">
               Metaballic Adapt

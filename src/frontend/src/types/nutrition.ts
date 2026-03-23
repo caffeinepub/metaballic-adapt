@@ -15,6 +15,7 @@ export interface UserProfile {
   age: number;
   activity: Activity;
   diet: DietPref;
+  gymUser: boolean;
   lifestyle: Lifestyle;
   avoidFoods: string;
   eatingPattern: EatingPattern;
@@ -25,6 +26,8 @@ export interface UserProfile {
 export interface NutritionPlan {
   calories: number;
   protein: number;
+  carbs: number;
+  fats: number;
   bmr: number;
   tdee: number;
 }
